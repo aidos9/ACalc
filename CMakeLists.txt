@@ -4,6 +4,10 @@ set(CMAKE_CXX_STANDARD 11)
 
 project(MathAST VERSION 0.1)
 
+include(CheckIncludeFile)
+include(CheckIncludeFileCXX)
+include(InstallRequiredSystemLibraries)
+
 set(SOURCES src/main.cpp
     src/astNode.cpp
     src/astEvaluator.cpp
@@ -32,5 +36,36 @@ set(HEADERS headers/astNode.h
     headers/grouping.h
     headers/expressions.h
     headers/exception.h)
+
+check_include_file_cxx(iostream HAVE_IOSTREAM)
+check_include_file_cxx(vector HAVE_VECTOR)
+check_include_file_cxx(string HAVE_STRING)
+check_include_file_cxx(memory HAVE_MEMORY)
+check_include_file_cxx(sstream HAVE_SSTREAM)
+check_include_file_cxx(cmath HAVE_CMATH)
+
+if(NOT HAVE_IOSTREAM)
+    message(FATAL_ERROR "Couldn't find <iostream>")
+endif()
+
+if(NOT HAVE_VECTOR)
+    message(FATAL_ERROR "Couldn't find <vector>")
+endif()
+
+if(NOT HAVE_STRING)
+    message(FATAL_ERROR "Couldn't find <string>")
+endif()
+
+if(NOT HAVE_MEMORY)
+    message(FATAL_ERROR "Couldn't find <memory>")
+endif()
+
+if(NOT HAVE_SSTREAM)
+    message(FATAL_ERROR "Couldn't find <sstream>")
+endif()
+
+if(NOT HAVE_CMATH)
+    message(FATAL_ERROR "Couldn't find <cmath>")
+endif()
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})

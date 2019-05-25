@@ -1,4 +1,5 @@
 #include "../headers/lexer.h"
+#include "../headers/exception.h"
 
 Lexer::Lexer()
 {
@@ -51,7 +52,7 @@ void Lexer::parse()
             {
                 tokens.push_back(handleNumber());
             }else{
-                //Throw
+                throw Exception("Unknown character",6);
             }
             break;
         }
