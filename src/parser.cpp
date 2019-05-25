@@ -3,6 +3,7 @@
 #include "../headers/grouping.h"
 #include "../headers/binary.h"
 #include "../headers/unary.h"
+#include "../headers/exception.h"
 #include <memory>
 
 Parser::Parser(const std::vector<Token>& tk)
@@ -12,17 +13,16 @@ Parser::Parser(const std::vector<Token>& tk)
 
 std::shared_ptr<Expression> Parser::parse()
 {
-    index = 0; // REset
+    index = 0; // Reset
     try {
         return handleExpression();
-    } catch (const std::exception) {
+    } catch (const Exception) {
         throw; // Pass through any errors
     }
 }
 
 std::shared_ptr<Expression> Parser::handleExpression()
 {
-    //return handleEquality();
     return handleAddition();
 }
 
@@ -83,7 +83,7 @@ std::shared_ptr<Expression> Parser::handlePrimary()
         return std::shared_ptr<Expression>(new Grouping(expr));
     }
 
-    throw;
+    throw Exception("Unknown primary", 5);
 }
 
 bool Parser::isAtEnd()
@@ -142,5 +142,5 @@ Token Parser::consume(TokenType type, const std::string& errMessage)
         return advance();
     }
 
-    throw;
+    throw Exception(errMessage, 4);
 }

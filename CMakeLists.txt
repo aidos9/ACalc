@@ -15,7 +15,8 @@ set(SOURCES src/main.cpp
     src/unary.cpp
     src/binary.cpp
     src/literal.cpp
-    src/grouping.cpp)
+    src/grouping.cpp
+    src/exception.cpp)
 
 set(HEADERS headers/astNode.h
     headers/astEvaluator.h
@@ -29,6 +30,7 @@ set(HEADERS headers/astNode.h
     headers/binary.h
     headers/literal.h
     headers/grouping.h
-    headers/expressions.h)
+    headers/expressions.h
+    headers/exception.h)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
