@@ -33,6 +33,7 @@ private:
     std::shared_ptr<Expression> handleExpression();
     std::shared_ptr<Expression> handleAddition();
     std::shared_ptr<Expression> handleMultiplication();
+    std::shared_ptr<Expression> handleExponent();
     std::shared_ptr<Expression> handleUnary();
     std::shared_ptr<Expression> handlePrimary();
 

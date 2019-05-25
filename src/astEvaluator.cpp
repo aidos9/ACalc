@@ -49,6 +49,8 @@ double ASTEvaluator::evaluateNode(std::shared_ptr<Expression> e)
              return evaluateNode(binary->getLeft()) * evaluateNode(binary->getRight());
         case TokenType::tok_div:
              return evaluateNode(binary->getLeft()) / evaluateNode(binary->getRight());
+        case TokenType::tok_exp:
+            return pow(evaluateNode(binary->getLeft()), evaluateNode(binary->getRight()));
         default:
             throw Exception("Fell through switch",3);
         }
@@ -56,6 +58,13 @@ double ASTEvaluator::evaluateNode(std::shared_ptr<Expression> e)
     {
         std::shared_ptr<Grouping> grouping = std::dynamic_pointer_cast<Grouping>(e);
         return evaluateNode(grouping->getExpression());
+    }else if(e->type == ExpressionType::uny)
+    {
+        std::shared_ptr<Unary> unary = std::dynamic_pointer_cast<Unary>(e);
+        if(unary->getOp().type == TokenType::tok_sub)
+        {
+            return -1*(evaluateNode(unary->getRight()));
+        }
     }
 
     throw Exception("Fell through function",2);

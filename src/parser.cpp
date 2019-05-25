@@ -42,15 +42,30 @@ std::shared_ptr<Expression> Parser::handleAddition()
     return left;
 }
 
-std::shared_ptr<Expression> Parser::handleMultiplication()
+std::shared_ptr<Expression> Parser::handleExponent()
 {
     std::shared_ptr<Expression> left = handleUnary();
+
+    while(match({tok_exp}))
+    {
+        // Get the operator. Match advances
+        Token op = previousToken();
+        std::shared_ptr<Expression> right = handleUnary();
+        return std::shared_ptr<Expression>(new Binary(left, op, right));
+    }
+
+    return left;
+}
+
+std::shared_ptr<Expression> Parser::handleMultiplication()
+{
+    std::shared_ptr<Expression> left = handleExponent();
 
     while(match({tok_div, tok_mul}))
     {
         // Get the operator. Match advances
         Token op = previousToken();
-        std::shared_ptr<Expression> right = handleUnary();
+        std::shared_ptr<Expression> right = handleExponent();
         return std::shared_ptr<Expression>(new Binary(left, op, right));
     }
 

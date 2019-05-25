@@ -25,6 +25,9 @@ void Lexer::parse()
         char ch = str[index];
         switch (ch)
         {
+        case '^':
+            tokens.push_back(Token(TokenType::tok_exp, "^"));
+            break;
         case '*':
             tokens.push_back(Token(TokenType::tok_mul, "*"));
             break;

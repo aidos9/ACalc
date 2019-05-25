@@ -9,6 +9,9 @@ class Unary : public Expression
 public:
     Unary(Token o, std::shared_ptr<Expression> r);
 
+    std::shared_ptr<Expression> getRight() const;
+    Token getOp() const;
+
 private:
     Token op;
     std::shared_ptr<Expression> right;

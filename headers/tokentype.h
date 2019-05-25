@@ -11,6 +11,7 @@ enum TokenType
     tok_eof = 5,
     tok_lParen = 6,
     tok_rParen = 7,
+    tok_exp = 8,
 };
 
 #endif // TOKENTYPE_H

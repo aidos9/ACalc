@@ -40,12 +40,22 @@ int main(int argc, char* argv[])
     if(passThroughStr != "")
     {
         Lexer lx = Lexer(passThroughStr);
-        lx.parse();
+        try {
+            lx.parse();
+        } catch (const Exception& e) {
+            std::cerr << "An error occured: " + e.getDescription() << " " << e.getCode() << std::endl;
+        }
 
         std::vector<Token> tok = lx.getTokens();
 
         Parser p = Parser(tok);
-        auto top = p.parse();
+
+        std::shared_ptr<Expression> top;
+        try {
+            top = p.parse();
+        } catch (const Exception& e) {
+            std::cerr << "An error occured: " + e.getDescription() << " " << e.getCode() << std::endl;
+        }
 
         if(verbose)
         {
