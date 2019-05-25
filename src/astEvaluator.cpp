@@ -1,35 +1,6 @@
 #include "../headers/astEvaluator.h"
 #include <cmath>
 
-double ASTEvaluator::evaluateNode(ASTNode* node)
-{
-    if(node->getOperation() == ASTOperation::ast_add)
-    {
-        return evaluateNode(node->getLeft()) + evaluateNode(node->getRight());
-    }else if(node->getOperation() == ASTOperation::ast_mul)
-    {
-        return evaluateNode(node->getLeft()) * evaluateNode(node->getRight());
-    }else if(node->getOperation() == ASTOperation::ast_sub)
-    {
-        return evaluateNode(node->getLeft()) - evaluateNode(node->getRight());
-    }else if(node->getOperation() == ASTOperation::ast_div)
-    {
-        double left = evaluateNode(node->getLeft());
-        if(fabs(left) == 0)
-        {
-            throw Exception("Can't divide zero",1);
-        }
-        return evaluateNode(node->getLeft()) / evaluateNode(node->getRight());
-    }else{
-        if(node->getHasValue())
-        {
-            return node->getValue();
-        }
-    }
-
-    throw Exception("Fell through function",2);
-}
-
 double ASTEvaluator::evaluateNode(std::shared_ptr<Expression> e)
 {
     if(e->type == ExpressionType::lit)
@@ -52,7 +23,7 @@ double ASTEvaluator::evaluateNode(std::shared_ptr<Expression> e)
         case TokenType::tok_exp:
             return pow(evaluateNode(binary->getLeft()), evaluateNode(binary->getRight()));
         default:
-            throw Exception("Fell through switch",3);
+            throw Exception("Fell through switch",1);
         }
     }else if(e->type == ExpressionType::grp)
     {

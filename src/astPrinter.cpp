@@ -7,38 +7,6 @@ ASTPrinter::ASTPrinter()
     ss = std::stringstream();
 }
 
-void ASTPrinter::printNode(const ASTNode* n)
-{
-    if(n->getOperation() == ASTOperation::ast_none)
-    {
-        ss << n->getValue();
-    }else if(n->getOperation() == ASTOperation::ast_div)
-    {
-        printNode(n->getLeft());
-        ss << " / ";
-        printNode(n->getRight());
-    }else if(n->getOperation() == ASTOperation::ast_mul)
-    {
-        printNode(n->getLeft());
-        ss << " * ";
-        printNode(n->getRight());
-    }else if(n->getOperation() == ASTOperation::ast_add)
-    {
-        ss << "(";
-        printNode(n->getLeft());
-        ss << " + ";
-        printNode(n->getRight());
-        ss << ")"; // Add these brackets because divide/multiply symbols on the outside would be evaluated first otherwise when printed
-    }else if(n->getOperation() == ASTOperation::ast_sub)
-    {
-        ss << "(";
-        printNode(n->getLeft());
-        ss << " - ";
-        printNode(n->getRight());
-        ss << ")"; // Add these brackets because divide/multiply symbols on the outside would be evaluated first otherwise when printed
-    }
-}
-
 void ASTPrinter::printNode(const std::shared_ptr<Expression> e)
 {
     if(e->type == ExpressionType::lit)
@@ -64,12 +32,5 @@ std::string ASTPrinter::printTree(const std::shared_ptr<Expression> e)
 {
     ss.clear();
     printNode(e);
-    return ss.str();
-}
-
-std::string ASTPrinter::printTree(const ASTNode* n)
-{
-    ss.clear();
-    printNode(n);
     return ss.str();
 }

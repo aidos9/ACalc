@@ -9,7 +9,6 @@ include(CheckIncludeFileCXX)
 include(InstallRequiredSystemLibraries)
 
 set(SOURCES src/main.cpp
-    src/astNode.cpp
     src/astEvaluator.cpp
     src/astPrinter.cpp
     src/lexer.cpp
@@ -22,8 +21,7 @@ set(SOURCES src/main.cpp
     src/grouping.cpp
     src/exception.cpp)
 
-set(HEADERS headers/astNode.h
-    headers/astEvaluator.h
+set(HEADERS headers/astEvaluator.h
     headers/astPrinter.h
     headers/lexer.h
     headers/token.h
