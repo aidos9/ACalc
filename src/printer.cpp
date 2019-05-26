@@ -1,13 +1,13 @@
-#include "../headers/astPrinter.h"
+#include "../headers/printer.h"
 #include "../headers/expressions.h"
 #include <memory>
 
-ASTPrinter::ASTPrinter()
+Printer::Printer()
 {
     ss = std::stringstream();
 }
 
-void ASTPrinter::printNode(const std::shared_ptr<Expression> e)
+void Printer::printNode(const std::shared_ptr<Expression> e)
 {
     if(e->type == ExpressionType::lit)
     {
@@ -28,7 +28,7 @@ void ASTPrinter::printNode(const std::shared_ptr<Expression> e)
     }
 }
 
-std::string ASTPrinter::printTree(const std::shared_ptr<Expression> e)
+std::string Printer::printTree(const std::shared_ptr<Expression> e)
 {
     ss.clear();
     printNode(e);

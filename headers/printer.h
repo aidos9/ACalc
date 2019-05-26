@@ -5,9 +5,9 @@
 #include <string>
 #include <sstream>
 
-class ASTPrinter {
+class Printer {
 public:
-    ASTPrinter();
+    Printer();
     std::string printTree(const std::shared_ptr<Expression> e);
 
 private:

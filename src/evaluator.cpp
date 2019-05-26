@@ -1,7 +1,7 @@
-#include "../headers/astEvaluator.h"
+#include "../headers/evaluator.h"
 #include <cmath>
 
-double ASTEvaluator::evaluateNode(std::shared_ptr<Expression> e)
+double Evaluator::evaluateNode(std::shared_ptr<Expression> e)
 {
     if(e->type == ExpressionType::lit)
     {

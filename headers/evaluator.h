@@ -5,7 +5,7 @@
 #include "exception.h"
 #include <string>
 
-namespace ASTEvaluator {
+namespace Evaluator {
     double evaluateNode(std::shared_ptr<Expression> e);
 }
 

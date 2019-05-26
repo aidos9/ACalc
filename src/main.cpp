@@ -1,5 +1,5 @@
-#include "../headers/astEvaluator.h"
-#include "../headers/astPrinter.h"
+#include "../headers/evaluator.h"
+#include "../headers/printer.h"
 #include "../headers/expressions.h"
 #include "../headers/lexer.h"
 #include "../headers/parser.h"
@@ -59,11 +59,11 @@ int main(int argc, char* argv[])
 
         if(verbose)
         {
-            ASTPrinter PX;
+            Printer PX;
             std::cout << PX.printTree(top) << std::endl;
         }
 
-        std::cout << ASTEvaluator::evaluateNode(top) << std::endl;
+        std::cout << Evaluator::evaluateNode(top) << std::endl;
         return 0;
     }
 
