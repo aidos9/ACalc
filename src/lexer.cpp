@@ -31,6 +31,9 @@ void Lexer::parse()
         case '*':
             tokens.push_back(Token(TokenType::tok_mul, "*"));
             break;
+        case '%':
+            tokens.push_back(Token(TokenType::tok_mod, "%"));
+            break;
         case '+':
             tokens.push_back(Token(TokenType::tok_add, "+"));
             break;

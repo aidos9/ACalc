@@ -61,7 +61,7 @@ std::shared_ptr<Expression> Parser::handleMultiplication()
 {
     std::shared_ptr<Expression> left = handleExponent();
 
-    while(match({tok_div, tok_mul}))
+    while(match({tok_div, tok_mul, tok_mod}))
     {
         // Get the operator. Match advances
         Token op = previousToken();

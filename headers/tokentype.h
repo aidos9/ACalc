@@ -12,6 +12,7 @@ enum TokenType
     tok_lParen = 6,
     tok_rParen = 7,
     tok_exp = 8,
+    tok_mod = 9,
 };
 
 #endif // TOKENTYPE_H

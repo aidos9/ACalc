@@ -22,6 +22,8 @@ double ASTEvaluator::evaluateNode(std::shared_ptr<Expression> e)
              return evaluateNode(binary->getLeft()) / evaluateNode(binary->getRight());
         case TokenType::tok_exp:
             return pow(evaluateNode(binary->getLeft()), evaluateNode(binary->getRight()));
+        case TokenType::tok_mod:
+            return std::fmod(evaluateNode(binary->getLeft()), evaluateNode(binary->getRight()));
         default:
             throw Exception("Fell through switch",1);
         }

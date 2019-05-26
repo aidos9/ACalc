@@ -8,7 +8,7 @@
 int main(int argc, char* argv[])
 {
     bool verbose = false;
-    std::string passThroughStr = "";
+    std::string passThroughStr = "5%5";
 
     if(argc > 1)
     {
