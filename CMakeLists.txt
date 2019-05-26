@@ -2,7 +2,13 @@ cmake_minimum_required(VERSION 3.12)
 cmake_policy(SET CMP0048 NEW)
 set(CMAKE_CXX_STANDARD 11)
 
-project(acalc VERSION 0.1)
+#Versions
+set(VERSION_MAJOR 0)
+set(VERSION_MINOR 1)
+set(VERSION_PATCH 0)
+set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+
+project(acalc VERSION 0.1.0 DESCRIPTION "A simple CLI calculator" LANGUAGES CXX)
 
 include(CheckIncludeFile)
 include(CheckIncludeFileCXX)
@@ -66,4 +72,5 @@ if(NOT HAVE_CMATH)
     message(FATAL_ERROR "Couldn't find <cmath>")
 endif()
 
+configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_SOURCE_DIR}/config.h)
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})

@@ -3,6 +3,7 @@
 #include "../headers/expressions.h"
 #include "../headers/lexer.h"
 #include "../headers/parser.h"
+#include "../config.h"
 #include <iostream>
 
 int main(int argc, char* argv[])
@@ -16,7 +17,7 @@ int main(int argc, char* argv[])
         {
             if(strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0)
             {
-                std::cout << "Welcome to ACalc v0.1" << std::endl;
+                std::cout << "Welcome to ACalc v" << VERSION << std::endl;
                 std::cout << "-h\t Show the help message" << std::endl;
                 std::cout << "-v\t Show verbose information" << std::endl;
                 std::cout << "-e\t Pass expression from command line" << std::endl;
@@ -68,11 +69,11 @@ int main(int argc, char* argv[])
     }
 
     bool should_exit = false;
-    std::cout << "Welcome to basic ACalc v0.1" << std::endl;
+    std::cout << "Welcome to basic ACalc v" << VERSION << std::endl;
 
     while(!should_exit)
     {
-        std::cout << " > ";
+        std::cout << "> ";
         std::string str;
         getline(std::cin, str);
 
