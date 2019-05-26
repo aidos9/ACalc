@@ -5,23 +5,6 @@
 #include "token.h"
 #include <vector>
 
-class ParserException : public std::exception
-{
-public:
-    ParserException(const std::string& d, const int& c)
-    {
-        description = "Parser exception: " + d;
-        code = c;
-    }
-
-    std::string description;
-    int code;
-    const char * what () const noexcept
-    {
-        return description.c_str();
-    }
-};
-
 class Parser
 {
 public:

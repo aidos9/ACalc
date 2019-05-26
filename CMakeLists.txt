@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 cmake_policy(SET CMP0048 NEW)
 set(CMAKE_CXX_STANDARD 11)
 
-project(MathAST VERSION 0.1)
+project(acalc VERSION 0.1)
 
 include(CheckIncludeFile)
 include(CheckIncludeFileCXX)

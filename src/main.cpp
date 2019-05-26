@@ -8,7 +8,7 @@
 int main(int argc, char* argv[])
 {
     bool verbose = false;
-    std::string passThroughStr = "5%5";
+    std::string passThroughStr = "";
 
     if(argc > 1)
     {
@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
         {
             if(strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0)
             {
-                std::cout << "Welcome to MathAST v0.1" << std::endl;
+                std::cout << "Welcome to ACalc v0.1" << std::endl;
                 std::cout << "-h\t Show the help message" << std::endl;
                 std::cout << "-v\t Show verbose information" << std::endl;
                 std::cout << "-e\t Pass expression from command line" << std::endl;
@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
     }
 
     bool should_exit = false;
-    std::cout << "Welcome to basic MathAST v0.1" << std::endl;
+    std::cout << "Welcome to basic ACalc v0.1" << std::endl;
 
     while(!should_exit)
     {
@@ -90,11 +90,11 @@ int main(int argc, char* argv[])
 
             if(verbose)
             {
-                ASTPrinter PX;
+                Printer PX;
                 std::cout << PX.printTree(top) << std::endl;
             }
 
-            std::cout << ASTEvaluator::evaluateNode(top) << std::endl;
+            std::cout << Evaluator::evaluateNode(top) << std::endl;
         }
     }
     return 0;
