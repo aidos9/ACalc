@@ -96,10 +96,54 @@ double Evaluator::evaluateNode(std::shared_ptr<Expression> e)
 
             double internals = evaluateNode(call->getArguments()[0]);
             return atan(internals);
+        }else if(call->getCallee().value == "gcd")
+        {
+            if(call->getArguments().size() != 2)
+            {
+                throw Exception("2 arguments expected", 9);
+            }
+
+            long long left = static_cast<long long>(evaluateNode(call->getArguments()[0]));
+            long long right = static_cast<long long>(evaluateNode(call->getArguments()[1]));
+            return gcd(left, right);
         }else{
             throw Exception("Unknown identifier", 8);
         }
     }
 
     throw Exception("Fell through function",2);
+}
+
+long long Evaluator::mod(long long number, long long divisor)
+{
+    long long x = static_cast<long long>(floor(number/divisor));
+    return number - divisor * x;
+}
+
+long long Evaluator::gcd(long long a, long long b)
+{
+    long long c;
+    long long d;
+
+    if(a == b)
+    {
+        return a;
+    }else if(a > b)
+    {
+        c = a;
+        d = b;
+    }else{
+        c = b;
+        d = a;
+    }
+
+    long long r = -1;
+    while(r != 0)
+    {
+        r = mod(c, d);
+        c = d;
+        d = r;
+    }
+
+    return c;
 }

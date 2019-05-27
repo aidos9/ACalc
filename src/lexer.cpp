@@ -51,6 +51,9 @@ void Lexer::parse()
         case ')':
             tokens.push_back(Token(TokenType::tok_rParen, ")"));
             break;
+        case ',':
+            tokens.push_back(Token(TokenType::tok_comma, ","));
+            break;
         case ' ':
         case '\r':
         case '\t':
