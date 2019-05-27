@@ -2,7 +2,6 @@
 #include "../headers/expressions.h"
 #include "../headers/exception.h"
 #include <memory>
-#include <iostream>
 
 Parser::Parser(const std::vector<Token>& tk)
 {
@@ -14,72 +13,97 @@ std::shared_ptr<Expression> Parser::parse()
     index = 0; // Reset
     try {
         return handleExpression();
-    } catch (const Exception) {
+    } catch (const Exception&) {
         throw; // Pass through any errors
     }
 }
 
 std::shared_ptr<Expression> Parser::handleExpression()
 {
-    return handleAddition();
+    try {
+        return handleAddition();
+    } catch (const Exception&) {
+        throw;
+    }
 }
 
 
 std::shared_ptr<Expression> Parser::handleAddition()
 {
-    std::shared_ptr<Expression> left = handleMultiplication();
+    try{
+        std::shared_ptr<Expression> left = handleMultiplication();
 
-    while(match({tok_sub, tok_add}))
-    {
-        // Get the operator. Match advances
-        Token op = previousToken();
-        std::shared_ptr<Expression> right = handleMultiplication();
-        return std::shared_ptr<Expression>(new Binary(left, op, right));
+        while(match({tok_sub, tok_add}))
+        {
+            // Get the operator. Match advances
+            Token op = previousToken();
+            std::shared_ptr<Expression> right = handleMultiplication();
+            return std::shared_ptr<Expression>(new Binary(left, op, right));
+        }
+
+        return left;
+    }catch(const Exception&){
+        throw;
     }
-
-    return left;
 }
 
 std::shared_ptr<Expression> Parser::handleMultiplication()
 {
-    std::shared_ptr<Expression> left = handleExponent();
+    try {
+        std::shared_ptr<Expression> left = handleExponent();
 
-    while(match({tok_div, tok_mul, tok_mod}))
-    {
-        // Get the operator. Match advances
-        Token op = previousToken();
-        std::shared_ptr<Expression> right = handleExponent();
-        return std::shared_ptr<Expression>(new Binary(left, op, right));
+        while(match({tok_div, tok_mul, tok_mod}))
+        {
+            // Get the operator. Match advances
+            Token op = previousToken();
+            std::shared_ptr<Expression> right = handleExponent();
+            return std::shared_ptr<Expression>(new Binary(left, op, right));
+        }
+
+        return left;
+    }catch(const Exception&) {
+        throw;
     }
-
-    return left;
 }
 
 std::shared_ptr<Expression> Parser::handleExponent()
 {
-    std::shared_ptr<Expression> left = handleUnary();
+    try{
+        std::shared_ptr<Expression> left = handleUnary();
 
-    while(match({tok_exp}))
-    {
-        // Get the operator. Match advances
-        Token op = previousToken();
-        std::shared_ptr<Expression> right = handleUnary();
-        return std::shared_ptr<Expression>(new Binary(left, op, right));
+        while(match({tok_exp}))
+        {
+            // Get the operator. Match advances
+            Token op = previousToken();
+            std::shared_ptr<Expression> right = handleUnary();
+            return std::shared_ptr<Expression>(new Binary(left, op, right));
+        }
+
+        return left;
+    }catch(const Exception&) {
+        throw;
     }
-
-    return left;
 }
+
 
 std::shared_ptr<Expression> Parser::handleUnary()
 {
     if(match({tok_sub}))
     {
-        Token op = previousToken();
-        std::shared_ptr<Expression> right = handlePrimary();
-        return std::shared_ptr<Expression>(new Unary(op, right));
+        try {
+            Token op = previousToken();
+            std::shared_ptr<Expression> right = handlePrimary();
+            return std::shared_ptr<Expression>(new Unary(op, right));
+        } catch (const Exception&) {
+            throw;
+        }
     }
 
-    return handleIdentifier();
+    try {
+        return handleIdentifier();
+    } catch (const Exception&) {
+        throw;
+    }
 }
 
 std::shared_ptr<Expression> Parser::handleIdentifier()
@@ -87,12 +111,27 @@ std::shared_ptr<Expression> Parser::handleIdentifier()
     if(match({tok_identifier}))
     {
         Token name = previousToken();
-        consume(tok_lParen, "Expected '(' to open an identifier");
+
+        try {
+            consume(tok_lParen, "Expected '(' to open an identifier");
+        }  catch (const Exception&) {
+            throw;
+        }
+
+
         std::vector<std::shared_ptr<Expression>> args;
-        args.push_back(handleExpression());
+        try {
+            args.push_back(handleExpression());
+        } catch (const Exception&) {
+            throw;
+        }
 
         while(match({tok_comma})){
-            args.push_back(handleExpression());
+            try {
+                args.push_back(handleExpression());
+            } catch (const Exception&) {
+                throw;
+            }
         }
 
         if(isAtEnd())
@@ -100,11 +139,20 @@ std::shared_ptr<Expression> Parser::handleIdentifier()
             throw Exception("No closing ')' found",7);
         }
 
-        consume(tok_rParen, "Expected ')' to close an identifier");
+        try {
+            consume(tok_rParen, "Expected ')' to close an identifier");
+        }catch (const Exception&) {
+            throw;
+        }
+
         return std::shared_ptr<Expression>(new Call(name, args));
     }
 
-    return handlePrimary();
+    try {
+        return handlePrimary();
+    } catch (const Exception&) {
+        throw;
+    }
 }
 
 std::shared_ptr<Expression> Parser::handlePrimary()
@@ -116,9 +164,13 @@ std::shared_ptr<Expression> Parser::handlePrimary()
 
     if(match({tok_lParen}))
     {
-        std::shared_ptr<Expression> expr = handleExpression();
-        consume(tok_rParen, "Expect ')' after expression.");
-        return std::shared_ptr<Expression>(new Grouping(expr));
+        try {
+            std::shared_ptr<Expression> expr = handleExpression();
+            consume(tok_rParen, "Expect ')' after expression.");
+            return std::shared_ptr<Expression>(new Grouping(expr));
+        } catch (const Exception&) {
+            throw;
+        }
     }
 
     throw Exception("Unknown primary", 5);

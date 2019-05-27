@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
         try {
             top = p.parse();
         } catch (const Exception& e) {
-            std::cerr << "An error occured: " + e.getDescription() << " " << e.getCode() << std::endl;
+            std::cerr << "An error occured: " + e.getDescription() << std::endl << "Code: " << e.getCode() << std::endl;
             return 1;
         }
 
@@ -84,12 +84,24 @@ int main(int argc, char* argv[])
             should_exit = true;
         }else{
             Lexer lx = Lexer(str);
-            lx.parse();
+            try {
+                lx.parse();
+            } catch (const Exception& e) {
+                std::cerr << "An error occured: " + e.getDescription() << std::endl << "Code: " << e.getCode() << std::endl;
+                continue;
+            }
 
             std::vector<Token> tok = lx.getTokens();
 
             Parser p = Parser(tok);
-            auto top = p.parse();
+            std::shared_ptr<Expression> top;
+
+            try {
+                top = p.parse();
+            } catch (const Exception& e) {
+                std::cerr << "An error occured: " + e.getDescription() << std::endl << "Code: " << e.getCode() << std::endl;
+                continue;
+            }
 
             if(verbose)
             {
