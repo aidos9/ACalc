@@ -8,6 +8,12 @@ Parser::Parser(const std::vector<Token>& tk)
     tokens = tk;
 }
 
+void Parser::setTokens(const std::vector<Token>& tk)
+{
+    tokens = tk;
+    index = 0;
+}
+
 std::shared_ptr<Expression> Parser::parse()
 {
     index = 0; // Reset
@@ -26,7 +32,6 @@ std::shared_ptr<Expression> Parser::handleExpression()
         throw;
     }
 }
-
 
 std::shared_ptr<Expression> Parser::handleAddition()
 {

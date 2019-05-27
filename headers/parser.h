@@ -10,6 +10,7 @@ class Parser
 {
 public:
     Parser(const std::vector<Token>& tk);
+    void setTokens(const std::vector<Token>& tk);
 
     std::shared_ptr<Expression> parse();
 
