@@ -1,10 +1,8 @@
 #include "../headers/parser.h"
-#include "../headers/literal.h"
-#include "../headers/grouping.h"
-#include "../headers/binary.h"
-#include "../headers/unary.h"
+#include "../headers/expressions.h"
 #include "../headers/exception.h"
 #include <memory>
+#include <iostream>
 
 Parser::Parser(const std::vector<Token>& tk)
 {
@@ -42,21 +40,6 @@ std::shared_ptr<Expression> Parser::handleAddition()
     return left;
 }
 
-std::shared_ptr<Expression> Parser::handleExponent()
-{
-    std::shared_ptr<Expression> left = handleUnary();
-
-    while(match({tok_exp}))
-    {
-        // Get the operator. Match advances
-        Token op = previousToken();
-        std::shared_ptr<Expression> right = handleUnary();
-        return std::shared_ptr<Expression>(new Binary(left, op, right));
-    }
-
-    return left;
-}
-
 std::shared_ptr<Expression> Parser::handleMultiplication()
 {
     std::shared_ptr<Expression> left = handleExponent();
@@ -72,13 +55,53 @@ std::shared_ptr<Expression> Parser::handleMultiplication()
     return left;
 }
 
+std::shared_ptr<Expression> Parser::handleExponent()
+{
+    std::shared_ptr<Expression> left = handleUnary();
+
+    while(match({tok_exp}))
+    {
+        // Get the operator. Match advances
+        Token op = previousToken();
+        std::shared_ptr<Expression> right = handleUnary();
+        return std::shared_ptr<Expression>(new Binary(left, op, right));
+    }
+
+    return left;
+}
+
 std::shared_ptr<Expression> Parser::handleUnary()
 {
     if(match({tok_sub}))
     {
         Token op = previousToken();
-        std::shared_ptr<Expression> right = handleUnary();
+        std::shared_ptr<Expression> right = handlePrimary();
         return std::shared_ptr<Expression>(new Unary(op, right));
+    }
+
+    return handleIdentifier();
+}
+
+std::shared_ptr<Expression> Parser::handleIdentifier()
+{
+    if(match({tok_identifier}))
+    {
+        Token name = previousToken();
+        consume(tok_lParen, "Expected '(' to open an identifier");
+        std::vector<std::shared_ptr<Expression>> args;
+        args.push_back(handleExpression());
+
+        while(match({tok_comma})){
+            args.push_back(handleExpression());
+        }
+
+        if(isAtEnd())
+        {
+            throw Exception("No closing ')' found",7);
+        }
+
+        consume(tok_rParen, "Expected ')' to close an identifier");
+        return std::shared_ptr<Expression>(new Call(name, args));
     }
 
     return handlePrimary();

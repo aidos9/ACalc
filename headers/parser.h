@@ -4,6 +4,7 @@
 #include "expression.h"
 #include "token.h"
 #include <vector>
+#include <memory>
 
 class Parser
 {
@@ -13,6 +14,7 @@ public:
     std::shared_ptr<Expression> parse();
 
 private:
+    std::shared_ptr<Expression> handleIdentifier();
     std::shared_ptr<Expression> handleExpression();
     std::shared_ptr<Expression> handleAddition();
     std::shared_ptr<Expression> handleMultiplication();

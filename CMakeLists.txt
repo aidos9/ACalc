@@ -8,14 +8,16 @@ set(VERSION_MINOR 1)
 set(VERSION_PATCH 0)
 set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
+set(LIBRARY_NAME "acalc-lib")
+
 project(acalc VERSION 0.1.0 DESCRIPTION "A simple CLI calculator" LANGUAGES CXX)
 
+enable_testing()
 include(CheckIncludeFile)
 include(CheckIncludeFileCXX)
 include(InstallRequiredSystemLibraries)
 
-set(SOURCES src/main.cpp
-    src/evaluator.cpp
+set(SOURCES src/evaluator.cpp
     src/printer.cpp
     src/lexer.cpp
     src/token.cpp
@@ -25,7 +27,8 @@ set(SOURCES src/main.cpp
     src/binary.cpp
     src/literal.cpp
     src/grouping.cpp
-    src/exception.cpp)
+    src/exception.cpp
+    src/call.cpp)
 
 set(HEADERS headers/evaluator.h
     headers/printer.h
@@ -39,7 +42,8 @@ set(HEADERS headers/evaluator.h
     headers/literal.h
     headers/grouping.h
     headers/expressions.h
-    headers/exception.h)
+    headers/exception.h
+    headers/call.h)
 
 check_include_file_cxx(iostream HAVE_IOSTREAM)
 check_include_file_cxx(vector HAVE_VECTOR)
@@ -73,4 +77,12 @@ if(NOT HAVE_CMATH)
 endif()
 
 configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_SOURCE_DIR}/config.h)
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+
+add_library(${LIBRARY_NAME} STATIC ${SOURCES} ${HEADERS})
+
+add_executable(${PROJECT_NAME} src/main.cpp)
+target_link_libraries(${PROJECT_NAME} ${LIBRARY_NAME})
+
+add_executable(lexer-test tests/lexertest.cpp)
+target_link_libraries(lexer-test ${LIBRARY_NAME})
+add_test(lexer-test lexer-test)

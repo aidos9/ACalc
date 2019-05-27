@@ -9,11 +9,13 @@ Lexer::Lexer()
 Lexer::Lexer(const std::string& equation)
 {
     str = equation;
+    clear();
 }
 
 void Lexer::setEquation(const std::string& equation)
 {
     str = equation;
+    clear();
 }
 
 void Lexer::parse()
@@ -57,8 +59,13 @@ void Lexer::parse()
             if(isdigit(ch))
             {
                 tokens.push_back(handleNumber());
+            }else if(isalpha(ch))
+            {
+                tokens.push_back(handleIdentifier());
             }else{
-                throw Exception("Unknown character",6);
+                std::string msg = "Unknown character: ";
+                msg += ch;
+                throw Exception(msg,6);
             }
             break;
         }
@@ -97,7 +104,27 @@ Token Lexer::handleNumber()
     return Token(TokenType::tok_number, value);
 }
 
-std::vector<Token> Lexer::getTokens()
+Token Lexer::handleIdentifier()
+{
+    std::string value = "";
+    while(isalnum(str[index]) && index < str.size())
+    {
+        value += str[index];
+        index++;
+    }
+
+    index--; // We do this because otherwise in the above loop we advance too far
+
+    return Token(TokenType::tok_identifier, value);
+}
+
+std::vector<Token> Lexer::getTokens() const
 {
     return tokens;
+}
+
+void Lexer::clear()
+{
+    tokens = std::vector<Token>();
+    index = 0;
 }

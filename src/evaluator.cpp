@@ -38,6 +38,67 @@ double Evaluator::evaluateNode(std::shared_ptr<Expression> e)
         {
             return -1*(evaluateNode(unary->getRight()));
         }
+    }else if(e->type == ExpressionType::call)
+    {
+        std::shared_ptr<Call> call = std::dynamic_pointer_cast<Call>(e);
+
+        if(call->getCallee().value == "sin")
+        {
+            if(call->getArguments().size() != 1)
+            {
+                throw Exception("Only 1 argument expected", 9);
+            }
+
+            double internals = evaluateNode(call->getArguments()[0]);
+            return sin(internals);
+        }else if(call->getCallee().value == "cos")
+        {
+            if(call->getArguments().size() != 1)
+            {
+                throw Exception("Only 1 argument expected", 9);
+            }
+
+            double internals = evaluateNode(call->getArguments()[0]);
+            return cos(internals);
+        }else if(call->getCallee().value == "tan")
+        {
+            if(call->getArguments().size() != 1)
+            {
+                throw Exception("Only 1 argument expected", 9);
+            }
+
+            double internals = evaluateNode(call->getArguments()[0]);
+            return tan(internals);
+        }else if(call->getCallee().value == "asin")
+        {
+            if(call->getArguments().size() != 1)
+            {
+                throw Exception("Only 1 argument expected", 9);
+            }
+
+            double internals = evaluateNode(call->getArguments()[0]);
+            return asin(internals);
+        }else if(call->getCallee().value == "acos")
+        {
+            if(call->getArguments().size() != 1)
+            {
+                throw Exception("Only 1 argument expected", 9);
+            }
+
+            double internals = evaluateNode(call->getArguments()[0]);
+            return acos(internals);
+        }else if(call->getCallee().value == "atan")
+        {
+            if(call->getArguments().size() != 1)
+            {
+                throw Exception("Only 1 argument expected", 9);
+            }
+
+            double internals = evaluateNode(call->getArguments()[0]);
+            return atan(internals);
+        }else{
+            throw Exception("Unknown identifier", 8);
+        }
     }
 
     throw Exception("Fell through function",2);

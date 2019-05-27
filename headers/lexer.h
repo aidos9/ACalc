@@ -10,12 +10,18 @@ class Lexer
 public:
     Lexer();
     Lexer(const std::string& equation);
+
     void setEquation(const std::string& equation);
+
     void parse();
-    std::vector<Token> getTokens();
+    void clear();
+
+    std::vector<Token> getTokens() const;
 
 private:
     Token handleNumber();
+    Token handleIdentifier();
+
     std::string str;
     std::vector<Token> tokens;
     size_t index = 0;

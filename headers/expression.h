@@ -7,6 +7,7 @@ enum ExpressionType {
     lit,
     grp,
     none,
+    call,
 };
 
 class Expression

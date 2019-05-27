@@ -44,7 +44,8 @@ int main(int argc, char* argv[])
         try {
             lx.parse();
         } catch (const Exception& e) {
-            std::cerr << "An error occured: " + e.getDescription() << " " << e.getCode() << std::endl;
+            std::cerr << "An error occured: " + e.getDescription() << std::endl << "Code: " << e.getCode() << std::endl;
+            return 1;
         }
 
         std::vector<Token> tok = lx.getTokens();
@@ -56,6 +57,7 @@ int main(int argc, char* argv[])
             top = p.parse();
         } catch (const Exception& e) {
             std::cerr << "An error occured: " + e.getDescription() << " " << e.getCode() << std::endl;
+            return 1;
         }
 
         if(verbose)

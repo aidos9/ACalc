@@ -6,5 +6,6 @@
 #include "literal.h"
 #include "binary.h"
 #include "unary.h"
+#include "call.h"
 
 #endif // EXPRESSIONS_H
