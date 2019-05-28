@@ -97,4 +97,9 @@ if(WITH_TESTS)
     add_executable(parser-test tests/parsertest.cpp)
     target_link_libraries(parser-test ${LIBRARY_NAME})
     add_test(parser-test parser-test)
+
+
+    add_executable(evaluator-test tests/evaluatortest.cpp)
+    target_link_libraries(evaluator-test ${LIBRARY_NAME})
+    add_test(evaluator-test evaluator-test)
 endif()
