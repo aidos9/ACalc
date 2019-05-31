@@ -1,6 +1,9 @@
 #include "../headers/evaluator.h"
 #include <cmath>
 
+const long double PI = 3.141592653589793238L;
+const long double EPSILON = 0.000000000000001L;
+
 double Evaluator::evaluateNode(std::shared_ptr<Expression> e)
 {
     if(e->type == ExpressionType::lit)
@@ -50,7 +53,20 @@ double Evaluator::evaluateNode(std::shared_ptr<Expression> e)
             }
 
             double internals = evaluateNode(call->getArguments()[0]);
-            return sin(internals);
+            internals = sin(internals);
+
+            if (fabs(internals) < static_cast<double>(EPSILON))
+            {
+                return 0;
+            }else if(fabs(internals-1) < static_cast<double>(EPSILON))
+            {
+                return 1;
+            }else if(fabs(internals+1) < static_cast<double>(EPSILON))
+            {
+                return -1;
+            }
+
+            return internals;
         }else if(call->getCallee().value == "cos")
         {
             if(call->getArguments().size() != 1)
@@ -59,7 +75,20 @@ double Evaluator::evaluateNode(std::shared_ptr<Expression> e)
             }
 
             double internals = evaluateNode(call->getArguments()[0]);
-            return cos(internals);
+            internals = sin(internals);
+
+            if (fabs(internals) < static_cast<double>(EPSILON))
+            {
+                return 0;
+            }else if(fabs(internals-1) < static_cast<double>(EPSILON))
+            {
+                return 1;
+            }else if(fabs(internals+1) < static_cast<double>(EPSILON))
+            {
+                return -1;
+            }
+
+            return internals;
         }else if(call->getCallee().value == "tan")
         {
             if(call->getArguments().size() != 1)
@@ -68,7 +97,20 @@ double Evaluator::evaluateNode(std::shared_ptr<Expression> e)
             }
 
             double internals = evaluateNode(call->getArguments()[0]);
-            return tan(internals);
+            internals = tan(internals);
+
+            if (fabs(internals) < static_cast<double>(EPSILON))
+            {
+                return 0;
+            }else if(fabs(internals-1) < static_cast<double>(EPSILON))
+            {
+                return 1;
+            }else if(fabs(internals+1) < static_cast<double>(EPSILON))
+            {
+                return -1;
+            }
+
+            return internals;
         }else if(call->getCallee().value == "asin")
         {
             if(call->getArguments().size() != 1)
@@ -106,44 +148,30 @@ double Evaluator::evaluateNode(std::shared_ptr<Expression> e)
             long long left = static_cast<long long>(evaluateNode(call->getArguments()[0]));
             long long right = static_cast<long long>(evaluateNode(call->getArguments()[1]));
             return gcd(left, right);
+        }else if(call->getCallee().value == "lcm")
+        {
+            if(call->getArguments().size() != 2)
+            {
+                throw Exception("2 arguments expected", 9);
+            }
+
+            long long left = static_cast<long long>(evaluateNode(call->getArguments()[0]));
+            long long right = static_cast<long long>(evaluateNode(call->getArguments()[1]));
+            return lcm(left, right);
         }else{
-            throw Exception("Unknown identifier", 8);
+            throw Exception("Unknown function", 8);
+        }
+    }else if(e->type == ExpressionType::identifier)
+    {
+        std::shared_ptr<Identifier> identifier = std::dynamic_pointer_cast<Identifier>(e);
+
+        if(identifier->getValue().value == "pi")
+        {
+            return static_cast<double>(PI);
+        }else{
+            throw Exception("Unknown identifier", 9);
         }
     }
 
     throw Exception("Fell through function",2);
-}
-
-long long Evaluator::mod(long long number, long long divisor)
-{
-    long long x = static_cast<long long>(floor(number/divisor));
-    return number - divisor * x;
-}
-
-long long Evaluator::gcd(long long a, long long b)
-{
-    long long c;
-    long long d;
-
-    if(a == b)
-    {
-        return a;
-    }else if(a > b)
-    {
-        c = a;
-        d = b;
-    }else{
-        c = b;
-        d = a;
-    }
-
-    long long r = -1;
-    while(r != 0)
-    {
-        r = mod(c, d);
-        c = d;
-        d = r;
-    }
-
-    return c;
 }

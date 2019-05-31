@@ -102,15 +102,15 @@ std::shared_ptr<Expression> Parser::handleUnary()
             return std::shared_ptr<Expression>(new Unary(op, right));
         }
 
-        return handleIdentifier();
+        return handleCall();
     } catch (const Exception&) {
         throw;
     }
 }
 
-std::shared_ptr<Expression> Parser::handleIdentifier()
+std::shared_ptr<Expression> Parser::handleCall()
 {
-    if(match({tok_identifier}))
+    if(match({tok_call}))
     {
         Token name = previousToken();
 
@@ -172,6 +172,11 @@ std::shared_ptr<Expression> Parser::handlePrimary()
         } catch (const Exception&) {
             throw;
         }
+    }
+
+    if(match({tok_identifier}))
+    {
+        return std::shared_ptr<Expression>(new Identifier(previousToken()));
     }
 
     throw Exception("Unknown primary", 5);

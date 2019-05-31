@@ -41,6 +41,10 @@ void Printer::printNode(const std::shared_ptr<Expression> e)
         }
 
         ss << ")";
+    }else if(e->type == ExpressionType::identifier)
+    {
+        std::shared_ptr<Identifier> identifier = std::dynamic_pointer_cast<Identifier>(e);
+        ss << identifier->getValue().value;
     }
 }
 

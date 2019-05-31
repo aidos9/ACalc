@@ -34,7 +34,9 @@ set(SOURCES src/evaluator.cpp
     src/literal.cpp
     src/grouping.cpp
     src/exception.cpp
-    src/call.cpp)
+    src/call.cpp
+    src/evaluatorFunctions.cpp
+    src/identifier.cpp)
 
 set(HEADERS headers/evaluator.h
     headers/printer.h
@@ -49,7 +51,8 @@ set(HEADERS headers/evaluator.h
     headers/grouping.h
     headers/expressions.h
     headers/exception.h
-    headers/call.h)
+    headers/call.h
+    headers/identifier.h)
 
 check_include_file_cxx(iostream HAVE_IOSTREAM)
 check_include_file_cxx(vector HAVE_VECTOR)
@@ -97,7 +100,6 @@ if(WITH_TESTS)
     add_executable(parser-test tests/parsertest.cpp)
     target_link_libraries(parser-test ${LIBRARY_NAME})
     add_test(parser-test parser-test)
-
 
     add_executable(evaluator-test tests/evaluatortest.cpp)
     target_link_libraries(evaluator-test ${LIBRARY_NAME})

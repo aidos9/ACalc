@@ -17,6 +17,7 @@ enum TokenType
     tok_mod = 9,
     tok_identifier = 10,
     tok_comma = 11,
+    tok_call = 12,
 };
 
 inline std::string tokenTypeToString(const TokenType& t)
@@ -46,6 +47,8 @@ inline std::string tokenTypeToString(const TokenType& t)
         return "Token-Identifier";
     case tok_comma:
         return "Token-Comma";
+    case tok_call:
+        return "Token-Call";
     }
 }
 

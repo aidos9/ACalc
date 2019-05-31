@@ -1,6 +1,6 @@
 #include "../headers/lexer.h"
 #include "../headers/exception.h"
-
+#include <iostream>
 Lexer::Lexer()
 {
 
@@ -118,7 +118,13 @@ Token Lexer::handleIdentifier()
 
     index--; // We do this because otherwise in the above loop we advance too far
 
-    return Token(TokenType::tok_identifier, value);
+    if(index < str.size() && str[index+1] == '(')
+    {
+        return Token(TokenType::tok_call, value);
+    }else{
+        return Token(TokenType::tok_identifier, value);
+    }
+
 }
 
 std::vector<Token> Lexer::getTokens() const
