@@ -1,25 +1,26 @@
+#define CATCH_CONFIG_MAIN
+#include "../libs/catch.hpp"
+
 #include "../headers/parser.h"
 #include "../headers/lexer.h"
 #include "../headers/exception.h"
 #include "../headers/printer.h"
-#include <iostream>
 
-int main()
+static std::string test1 = "sin(5-3)+4^2";
+static std::string test2 = "5/(3*3)+4^(3-1)";
+static std::string test3 = "183^(4-3)*22-(88)+12";
+
+TEST_CASE("Test 1","[test1]")
 {
-    std::cout << "Test 1: ";
-
-    std::string test1 = "sin(5-3)+4^2";
-    std::string test2 = "5/(3*3)+4^(3-1)";
-    std::string test3 = "183^(4-3)*22-(88)+12";
-
     Lexer lx = Lexer();
     lx.setEquation(test1);
 
     try {
         lx.parse();
     } catch (const Exception& e) {
-        std::cerr << "Failed" << std::endl << "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode() << std::endl;
-        return 1;
+        std::stringstream ss;
+        ss <<  "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
     }
 
     std::vector<Token> tokens = lx.getTokens();
@@ -31,82 +32,76 @@ int main()
     try {
         e = p.parse();
     } catch (const Exception& e) {
-        std::cerr << "Failed" << std::endl <<  "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode() << std::endl;
-        return 1;
+        std::stringstream ss;
+        ss <<  "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
     }
 
     Printer printer = Printer();
-    std::string v = printer.printTree(e);
 
-    if(v != test1)
-    {
-        std::cerr << "Failed" << std::endl << "The expected output was not detected. Instead \"" << v << "\" was outputted" << std::endl;
-        return 1;
-    }
+    REQUIRE(printer.printTree(e) == test1);
+}
 
-    std::cout << "Passed" << std::endl << "Test 2: ";
-
+TEST_CASE("Test 2","[test2]")
+{
+    Lexer lx = Lexer();
     lx.setEquation(test2);
 
     try {
         lx.parse();
     } catch (const Exception& e) {
-        std::cerr << "Failed" << std::endl << "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode() << std::endl;
-        return 1;
+        std::stringstream ss;
+        ss <<  "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
     }
 
-    tokens = lx.getTokens();
+    std::vector<Token> tokens = lx.getTokens();
 
 
-    p.setTokens(tokens);
+    Parser p = Parser(tokens);
+    std::shared_ptr<Expression> e;
 
     try {
         e = p.parse();
     } catch (const Exception& e) {
-        std::cerr << "Failed" << std::endl<< "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode() << std::endl;
-        return 1;
+        std::stringstream ss;
+        ss <<  "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
     }
 
-    v = printer.printTree(e);
+    Printer printer = Printer();
 
-    if(v != test2)
-    {
-        std::cerr << "Failed" << std::endl << "The expected output was not detected. Instead \"" << v << "\" was outputted" << std::endl;
-        return 1;
-    }
+    REQUIRE(printer.printTree(e) == test2);
+}
 
-    std::cout << "Passed" << std::endl << "Test 3: ";
-
+TEST_CASE("Test 3","[test3]")
+{
+    Lexer lx = Lexer();
     lx.setEquation(test3);
 
     try {
         lx.parse();
     } catch (const Exception& e) {
-        std::cerr << "Failed" << std::endl << "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode() << std::endl;
-        return 1;
+        std::stringstream ss;
+        ss <<  "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
     }
 
-    tokens = lx.getTokens();
+    std::vector<Token> tokens = lx.getTokens();
 
 
-    p.setTokens(tokens);
+    Parser p = Parser(tokens);
+    std::shared_ptr<Expression> e;
 
     try {
         e = p.parse();
     } catch (const Exception& e) {
-        std::cerr << "Failed" << std::endl<< "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode() << std::endl;
-        return 1;
+        std::stringstream ss;
+        ss <<  "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
     }
 
-    v = printer.printTree(e);
+    Printer printer = Printer();
 
-    if(v != test3)
-    {
-        std::cerr << "Failed" << std::endl << "The expected output was not detected. Instead \"" << v << "\" was outputted" << std::endl;
-        return 1;
-    }
-
-    std::cout << "Passed" << std::endl;
-
-    return 0;
+    REQUIRE(printer.printTree(e) == test3);
 }

@@ -120,7 +120,6 @@ std::shared_ptr<Expression> Parser::handleIdentifier()
             throw;
         }
 
-
         std::vector<std::shared_ptr<Expression>> args;
         try {
             args.push_back(handleExpression());

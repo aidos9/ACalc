@@ -3,113 +3,75 @@
 #include "../headers/tokentype.h"
 #include <iostream>
 
-int main()
+#define CATCH_CONFIG_MAIN
+#include "../libs/catch.hpp"
+
+static std::string test1 = "sin(4)";
+static std::string test2 = "cos(4 * (3-2))";
+static std::string test3 = "5^(4%3) / 2";
+
+TEST_CASE("Test 1","[test1]")
 {
-    std::string test1 = "sin(4)";
-    std::string test2 = "cos(4 * (3-2))";
-    std::string test3 = "5^(4%3) / 2";
     Lexer lx = Lexer(test1);
     try {
          lx.parse();
     } catch (const Exception& e) {
-        std::cerr << "An exception occurred: "<< e.getDescription() << ". Code: " << e.getCode() << std::endl;
-        return 1;
+        std::stringstream ss;
+        ss <<  "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
     }
 
     std::vector<Token> results = lx.getTokens();
     std::vector<TokenType> expectedTypes = {tok_identifier, tok_lParen, tok_number, tok_rParen, tok_eof};
 
-    std::cout << std::endl << "Test 1" << std::endl << std::endl;
-
-    if(expectedTypes.size() != results.size())
-    {
-        std::cerr << "The results array is not the expected length" << std::endl;
-        return 1;
-    }
+    REQUIRE(expectedTypes.size() == results.size());
 
     for(size_t i = 0; i < results.size(); i++)
     {
-        std::cout << "Index: " << i << " : " << tokenTypeToString(results[i].type);
-        if(expectedTypes[i] != results[i].type)
-        {
-            std::cout << " - " << "Unexpected type (" << tokenTypeToString(expectedTypes[i]) << ")";
-        }
-
-        std::cout << std::endl;
+        REQUIRE(expectedTypes[i] == results[i].type);
     }
+}
 
-
-    lx.setEquation(test2);
-
+TEST_CASE("Test 2","[test2]")
+{
+    Lexer lx = Lexer(test2);
     try {
          lx.parse();
     } catch (const Exception& e) {
-        std::cerr << "An exception occurred: "<< e.getDescription() << ". Code: " << e.getCode() << std::endl;
-        return 1;
+        std::stringstream ss;
+        ss <<  "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
     }
 
-    results = lx.getTokens();
-    expectedTypes = {tok_identifier, tok_lParen, tok_number, tok_mul, tok_lParen, tok_number, tok_sub, tok_number, tok_rParen, tok_rParen, tok_eof};
+    std::vector<Token> results = lx.getTokens();
+    std::vector<TokenType> expectedTypes = {tok_identifier, tok_lParen, tok_number, tok_mul, tok_lParen, tok_number, tok_sub, tok_number, tok_rParen, tok_rParen, tok_eof};
 
-    std::cout << std::endl << "Test 2" << std::endl << std::endl;
-
-    if(expectedTypes.size() != results.size())
-    {
-        std::cout << "The results array is not the expected length" << std::endl;
-        for(size_t i = 0; i < results.size(); i++)
-        {
-            std::cout << "Index: " << i << " : " << tokenTypeToString(results[i].type) << std::endl;
-        }
-        return 1;
-    }
+    REQUIRE(expectedTypes.size() == results.size());
 
     for(size_t i = 0; i < results.size(); i++)
     {
-        std::cout << "Index: " << i << " : " << tokenTypeToString(results[i].type);
-        if(expectedTypes[i] != results[i].type)
-        {
-            std::cout << " - " << "Unexpected type (" << tokenTypeToString(expectedTypes[i]) << ")";
-        }
-
-        std::cout << std::endl;
+        REQUIRE(expectedTypes[i] == results[i].type);
     }
+}
 
-    lx.setEquation(test3);
-
+TEST_CASE("Test 3","[test3]")
+{
+    Lexer lx = Lexer(test3);
     try {
          lx.parse();
     } catch (const Exception& e) {
-        std::cerr << "An exception occurred: "<< e.getDescription() << ". Code: " << e.getCode() << std::endl;
-        return 1;
+        std::stringstream ss;
+        ss <<  "An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
     }
 
-    results = lx.getTokens();
-    expectedTypes = {tok_number, tok_exp, tok_lParen, tok_number, tok_mod, tok_number, tok_rParen, tok_div, tok_number, tok_eof};
+    std::vector<Token> results = lx.getTokens();
+    std::vector<TokenType> expectedTypes = {tok_number, tok_exp, tok_lParen, tok_number, tok_mod, tok_number, tok_rParen, tok_div, tok_number, tok_eof};
 
-    std::cout << std::endl << "Test 3" << std::endl << std::endl;
-
-    if(expectedTypes.size() != results.size())
-    {
-        std::cout << "The results array is not the expected length" << std::endl;
-        for(size_t i = 0; i < results.size(); i++)
-        {
-            std::cout << "Index: " << i << " : " << tokenTypeToString(results[i].type) << std::endl;
-        }
-        return 1;
-    }
+    REQUIRE(expectedTypes.size() == results.size());
 
     for(size_t i = 0; i < results.size(); i++)
     {
-        std::cout << "Index: " << i << " : " << tokenTypeToString(results[i].type);
-        if(expectedTypes[i] != results[i].type)
-        {
-            std::cout << " - " << "Unexpected type (" << tokenTypeToString(expectedTypes[i]) << ")";
-        }
-
-        std::cout << std::endl;
+        REQUIRE(expectedTypes[i] == results[i].type);
     }
-
-    std::cout << "All tests passed" << std::endl;
-
-    return 0;
 }
