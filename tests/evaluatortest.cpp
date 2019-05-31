@@ -104,3 +104,127 @@ TEST_CASE("Test 3","[test3]") {
 
     REQUIRE(cmpf(ret, 3860260, 0.0000001));
 }
+
+TEST_CASE("Test 4","[test4]") {
+    Lexer lx = Lexer();
+    lx.setEquation("log(10)");
+
+    try {
+        lx.parse();
+    } catch (const Exception& e) {
+        std::stringstream ss;
+        ss <<"An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
+    }
+
+    std::vector<Token> tokens = lx.getTokens();
+
+
+    Parser p = Parser(tokens);
+    std::shared_ptr<Expression> e;
+
+    try {
+        e = p.parse();
+    } catch (const Exception& e) {
+        std::stringstream ss;
+        ss <<"An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
+    }
+
+    double ret = Evaluator::evaluateNode(e);
+
+    REQUIRE(cmpf(ret, 1, 0.0000001));
+}
+
+TEST_CASE("Test 5","[test5]") {
+    Lexer lx = Lexer();
+    lx.setEquation("ln(e)");
+
+    try {
+        lx.parse();
+    } catch (const Exception& e) {
+        std::stringstream ss;
+        ss <<"An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
+    }
+
+    std::vector<Token> tokens = lx.getTokens();
+
+
+    Parser p = Parser(tokens);
+    std::shared_ptr<Expression> e;
+
+    try {
+        e = p.parse();
+    } catch (const Exception& e) {
+        std::stringstream ss;
+        ss <<"An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
+    }
+
+    double ret = Evaluator::evaluateNode(e);
+
+    REQUIRE(cmpf(ret, 1, 0.0000001));
+}
+
+TEST_CASE("Test 6","[test6]") {
+    Lexer lx = Lexer();
+    lx.setEquation("log(2,4))");
+
+    try {
+        lx.parse();
+    } catch (const Exception& e) {
+        std::stringstream ss;
+        ss <<"An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
+    }
+
+    std::vector<Token> tokens = lx.getTokens();
+
+
+    Parser p = Parser(tokens);
+    std::shared_ptr<Expression> e;
+
+    try {
+        e = p.parse();
+    } catch (const Exception& e) {
+        std::stringstream ss;
+        ss <<"An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
+    }
+
+    double ret = Evaluator::evaluateNode(e);
+
+    REQUIRE(cmpf(ret, 2, 0.0000001));
+}
+
+TEST_CASE("Test 7","[test7]") {
+    Lexer lx = Lexer();
+    lx.setEquation("sin(pi)");
+
+    try {
+        lx.parse();
+    } catch (const Exception& e) {
+        std::stringstream ss;
+        ss <<"An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
+    }
+
+    std::vector<Token> tokens = lx.getTokens();
+
+
+    Parser p = Parser(tokens);
+    std::shared_ptr<Expression> e;
+
+    try {
+        e = p.parse();
+    } catch (const Exception& e) {
+        std::stringstream ss;
+        ss <<"An exception occurred with description: " << e.getDescription() << " with code: " << e.getCode();
+        FAIL(ss.str());
+    }
+
+    double ret = Evaluator::evaluateNode(e);
+
+    REQUIRE(cmpf(ret, 0, 0.0000001));
+}

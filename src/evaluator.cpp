@@ -159,6 +159,32 @@ double Evaluator::evaluateNode(std::shared_ptr<Expression> e)
             long long left = static_cast<long long>(evaluateNode(call->getArguments()[0]));
             long long right = static_cast<long long>(evaluateNode(call->getArguments()[1]));
             return lcm(left, right);
+        }else if(call->getCallee().value == "ln")
+        {
+            if(call->getArguments().size() != 1)
+            {
+                throw Exception("1 argument expected", 9);
+            }
+
+            double value = evaluateNode(call->getArguments()[0]);
+            return log(value);
+        }else if(call->getCallee().value == "log")
+        {
+            if(call->getArguments().size() != 1 && call->getArguments().size() != 2)
+            {
+                throw Exception("1 or 2 arguments expected. (base, x) or (x)", 9);
+            }
+
+            if(call->getArguments().size() == 2)
+            {
+                double base = evaluateNode(call->getArguments()[0]);
+                double value = evaluateNode(call->getArguments()[1]);
+                return log_b(base, value);
+            }else{
+                double value = evaluateNode(call->getArguments()[0]);
+                return log10(value);
+            }
+
         }else{
             throw Exception("Unknown function", 8);
         }

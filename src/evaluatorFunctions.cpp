@@ -48,4 +48,9 @@ long long Evaluator::lcm(long long a, long long b)
     return (a * b / gcd(a, b));
 }
 
+double Evaluator::log_b(double b,double x)
+{
+    return (log(x)/log(b));
+}
+
 #endif // EVAULATORFUNCTIONS_H
