@@ -3,6 +3,7 @@
 
 const long double PI = 3.141592653589793238L;
 const long double EPSILON = 0.000000000000001L;
+const long double E = 2.71828182845904523536L;
 
 double Evaluator::evaluateNode(std::shared_ptr<Expression> e)
 {
@@ -168,6 +169,9 @@ double Evaluator::evaluateNode(std::shared_ptr<Expression> e)
         if(identifier->getValue().value == "pi")
         {
             return static_cast<double>(PI);
+        }else if(identifier->getValue().value == "e")
+        {
+            return static_cast<double>(E);
         }else{
             throw Exception("Unknown identifier", 9);
         }

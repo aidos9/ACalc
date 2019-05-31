@@ -5,6 +5,7 @@
 #include "../headers/parser.h"
 #include "../config.h"
 #include <iostream>
+#include <iomanip>
 
 int main(int argc, char* argv[])
 {
@@ -63,10 +64,22 @@ int main(int argc, char* argv[])
         if(verbose)
         {
             Printer PX;
-            std::cout << PX.printTree(top) << std::endl;
+
+            try {
+                std::cout << PX.printTree(top) << std::endl;
+            } catch (const Exception& e) {
+                std::cerr << "An error occured: " + e.getDescription() << std::endl << "Code: " << e.getCode() << std::endl;
+                return 1;
+            }
         }
 
-        std::cout << Evaluator::evaluateNode(top) << std::endl;
+        try {
+            std::cout << std::setprecision(14) << Evaluator::evaluateNode(top) << std::endl;
+        } catch (const Exception& e) {
+            std::cerr << "An error occured: " + e.getDescription() << std::endl << "Code: " << e.getCode() << std::endl;
+            return 1;
+        }
+
         return 0;
     }
 
@@ -106,10 +119,21 @@ int main(int argc, char* argv[])
             if(verbose)
             {
                 Printer PX;
-                std::cout << PX.printTree(top) << std::endl;
+
+                try {
+                    std::cout << PX.printTree(top) << std::endl;
+                } catch (const Exception& e) {
+                    std::cerr << "An error occured: " + e.getDescription() << std::endl << "Code: " << e.getCode() << std::endl;
+                    continue;
+                }
             }
 
-            std::cout << Evaluator::evaluateNode(top) << std::endl;
+            try {
+                std::cout << std::setprecision(14) << Evaluator::evaluateNode(top) << std::endl;
+            } catch (const Exception& e) {
+                std::cerr << "An error occured: " + e.getDescription() << std::endl << "Code: " << e.getCode() << std::endl;
+                continue;
+            }
         }
     }
     return 0;
