@@ -43,7 +43,8 @@ std::shared_ptr<Expression> Parser::handleAddition()
             // Get the operator. Match advances
             Token op = previousToken();
             std::shared_ptr<Expression> right = handleMultiplication();
-            return std::shared_ptr<Expression>(new Binary(left, op, right));
+
+            left = std::shared_ptr<Expression>(new Binary(left, op, right)); // We are returning but the next token is still an addition
         }
 
         return left;
@@ -62,7 +63,7 @@ std::shared_ptr<Expression> Parser::handleMultiplication()
             // Get the operator. Match advances
             Token op = previousToken();
             std::shared_ptr<Expression> right = handleExponent();
-            return std::shared_ptr<Expression>(new Binary(left, op, right));
+            left = std::shared_ptr<Expression>(new Binary(left, op, right));
         }
 
         return left;
@@ -81,7 +82,7 @@ std::shared_ptr<Expression> Parser::handleExponent()
             // Get the operator. Match advances
             Token op = previousToken();
             std::shared_ptr<Expression> right = handleUnary();
-            return std::shared_ptr<Expression>(new Binary(left, op, right));
+            left = std::shared_ptr<Expression>(new Binary(left, op, right));
         }
 
         return left;
@@ -93,18 +94,14 @@ std::shared_ptr<Expression> Parser::handleExponent()
 
 std::shared_ptr<Expression> Parser::handleUnary()
 {
-    if(match({tok_sub}))
-    {
-        try {
-            Token op = previousToken();
-            std::shared_ptr<Expression> right = handlePrimary();
-            return std::shared_ptr<Expression>(new Unary(op, right));
-        } catch (const Exception&) {
-            throw;
-        }
-    }
-
     try {
+        if(match({tok_sub}))
+        {
+            Token op = previousToken();
+            std::shared_ptr<Expression> right = handleUnary();
+            return std::shared_ptr<Expression>(new Unary(op, right));
+        }
+
         return handleIdentifier();
     } catch (const Exception&) {
         throw;
