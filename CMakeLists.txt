@@ -10,7 +10,7 @@ set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
 set(LIBRARY_NAME "acalc-lib")
 
-project(acalc VERSION 0.1.0 DESCRIPTION "A simple CLI calculator" LANGUAGES CXX)
+project(acalc VERSION 0.2.0 DESCRIPTION "A simple CLI calculator" LANGUAGES CXX)
 
 if(WITH_TESTS)
     message(STATUS "Enabled Tests")
