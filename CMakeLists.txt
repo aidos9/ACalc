@@ -60,6 +60,8 @@ check_include_file_cxx(string HAVE_STRING)
 check_include_file_cxx(memory HAVE_MEMORY)
 check_include_file_cxx(sstream HAVE_SSTREAM)
 check_include_file_cxx(cmath HAVE_CMATH)
+check_include_file_cxx(cstring HAVE_CSTRING)
+check_include_file_cxx(iomanip HAVE_IOMANIP)
 
 if(NOT HAVE_IOSTREAM)
     message(FATAL_ERROR "Couldn't find <iostream>")
@@ -83,6 +85,14 @@ endif()
 
 if(NOT HAVE_CMATH)
     message(FATAL_ERROR "Couldn't find <cmath>")
+endif()
+
+if(NOT HAVE_CSTRING)
+    message(FATAL_ERROR "Couldn't find <cstring>")
+endif()
+
+if(NOT HAVE_IOMANIP)
+    message(FATAL_ERROR "Couldn't find <iomanip>")
 endif()
 
 configure_file(${PROJECT_SOURCE_DIR}/config.h.in ${PROJECT_SOURCE_DIR}/config.h)

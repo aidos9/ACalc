@@ -1,6 +1,6 @@
 #include "../headers/lexer.h"
 #include "../headers/exception.h"
-#include "../headers/tokentype.h"
+#include "../headers/tokenType.h"
 #define CATCH_CONFIG_MAIN
 #include "../libs/catch.hpp"
 

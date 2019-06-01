@@ -4,6 +4,7 @@
 #include "expression.h"
 #include <string>
 #include <sstream>
+#include <memory>
 
 class Printer {
 public:
